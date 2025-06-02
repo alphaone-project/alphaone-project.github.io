@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AlphaOne: Reasoning Models Thinking Slow and Fast at Test Time</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link rel="stylesheet" href="website/css/bulma.min.css">
+    <link rel="stylesheet" href="website/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="website/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="website/css/fontawesome.all.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./website/javascript/bulma-carousel.min.js"></script>
+    <script src="./website/javascript/bulma-slider.min.js"></script>
+    <script src="./website/javascript/explorer-index.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <link href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator_bootstrap4.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
+    <script defer src="website/javascript/fontawesome.all.min.js"></script>
+    <!-- <script src="website/javascript/peity-vanilla.js"></script> -->
+
+
+    <!-- below we load some js scripts -->
+    <script src="website/javascript/benchmark_table.js" type="module"></script>
+    <script src="website/javascript/benchmark_table_low_level.js" type="module"></script>
+
+    <link rel="stylesheet" href="website/css/index.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C7GJ4FYMY9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-C7GJ4FYMY9');
+    </script>
+
+    <!-- MathJax script -->
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/javascript">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+
+    <noscript>
+        <p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101339888ns.gif" /></p>
+    </noscript>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        var toggles = document.querySelectorAll('.toggle-section');
+        toggles.forEach(function(toggle) {
+            toggle.addEventListener('click', function() {
+            var content = document.getElementById(toggle.getAttribute('aria-controls'));
+            var toggleIcon = toggle.children[1].children[0];
+            content.classList.toggle('is-active');
+            if (content.classList.contains('is-active')) {
+                toggleIcon.style.transition = 'transform 0.3s ease';
+                toggleIcon.style.transform = 'rotate(180deg)';
+            } else {
+                toggleIcon.style.transition = 'transform 0.3s ease';
+                toggleIcon.style.transform = 'rotate(0deg)';
+            }
+            });
+        });
+        });
+      </script>
+
+    <style>
+        .collapse-content {
+          display: none;
+          margin-top: 10px;
+        }
+        .collapse-content.is-active {
+          display: block;
+        }
+        /* .toggle-section .icon.is-small {
+          transition: transform 0.3s ease;
+        } */
+        /* .toggle-section .fa-angle-up {
+          transform: rotate(180deg);
+        } */
+      </style>
+</head>
+
+<body>
+
+  <!-- Single-line Title with Bulma's .title.is-1 is-bold (centered heading) -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+
+            <!-- MAIN TITLE (logo + "AlphaOne:") -->
+            <h1 class="title is-1 publication-title is-bold">
+              <span class="alphaone" style="vertical-align: middle">AlphaOne</span>
+            </h1>
+
+            <!-- SUBTITLE -->
+            <h2 class="title is-1 publication-title is-bold" style="margin-top:-0.5em; margin-right: 30px; margin-left: 30px;">
+              Reasoning Models Thinking Slow and Fast at Test Time
+            </h2>
+
+            <!-- Author list -->
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://jyzhang1208.github.io/" target="_blank">Junyu Zhang</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/uiuc.svg" alt="uiuc" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">&#8224;
+                </sup>&nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://runpeidong.web.illinois.edu/" target="_blank">Runpei Dong</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/uiuc.svg" alt="uiuc" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">&#8224;
+                </sup>&nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://rookiehb.github.io/" target="_blank">Han Wang</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/uiuc.svg" alt="uiuc" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>&nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=-tpUy14AAAAJ&hl=en" target="_blank">Xuying Ning</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/uiuc.svg" alt="uiuc" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>&nbsp;&nbsp;&nbsp;
+              </span><br>
+              <span class="author-block">
+                <a href="https://geng-haoran.github.io/">Haoran Geng</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/berkeley_logo.svg" alt="ucb" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>&nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=GegXM9gAAAAJ&hl=en">Peihao Li</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/berkeley_logo.svg" alt="ucb" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>&nbsp;&nbsp;&nbsp;                
+              </span>
+              <span class="author-block">
+                <a href="https://xialin-he.github.io/">Xialin He</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/uiuc.svg" alt="uiuc" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>&nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://yutongbai.com/">Yutong Bai</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/berkeley_logo.svg" alt="ucb" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>&nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://people.eecs.berkeley.edu/~malik/">Jitendra Malik</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/berkeley_logo.svg" alt="ucb" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>&nbsp;&nbsp;&nbsp;              
+              </span><br>
+              <span class="author-block">
+                <a href="https://saurabhg.web.illinois.edu/">Saurabh Gupta</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/uiuc.svg" alt="uiuc" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>&nbsp;&nbsp;&nbsp;
+              </span>
+              <span class="author-block">
+                <a href="https://www.huan-zhang.com/">Huan Zhang</a>
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/uiuc.svg" alt="uiuc" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>
+              </span>
+            </div>
+            <div class="is-size-5 publication-authors" style="margin-top:1em;">
+              <span class="author-block">
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/uiuc.svg" alt="uiuc" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>University of Illinois Urbana-Champaign</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span class="author-block">
+                <sup style="display: inline-flex; align-items: center; margin-left: -0.3em; gap: 0.05em;">
+                  <img src="website/img/berkeley_logo.svg" alt="ucb" style="height: 1.0em; vertical-align: baseline; margin: 0 0.1em;">
+                </sup>UC Berkeley</span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>&#8224</sup>Equal contribution</span>
+            </div>
+
+            <!-- Links -->
+            <div class="column has-text-centered" style="margin-top:1.5em;">
+              <span class="link-block">
+                <a href="http://arxiv.org/abs/" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>&nbsp;&nbsp;
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/ASTRAL-Group/AlphaOne" class="external-link button is-normal is-rounded is-dark" role="button" target="_blank">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming soon)</span>
+                </a> &nbsp;&nbsp;
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="text-align: center; margin-top: 4rem; margin-bottom: 2rem;">
+    <h2 style="font-weight: normal; color: #555;">🚧 Project page under construction — stay tuned! 🚧</h2>
+  </section>
+
+  <!-- Overview Section -->
+  <section class="section" id="overview" style="padding-top:1.5rem;">
+    <div class="container" style="max-width: 80%; margin: 0 auto;">
+      <h1 class="title is-3" style="text-align:center; font-size: 2.2em; margin-bottom:1rem;">Overview</h1>
+      <br>
+      <div class="content has-text-justified" style="max-width: 95%; font-size: 1.15em; margin: 0 auto; line-height: 1.55;">
+        <p style="text-align:justify; color:rgb(31, 30, 30);">
+          We present <span class="alphaone">AlphaOne</span> (&#x1D6FC;1), a universal framework for <b>modulating reasoning progress</b> in large reasoning models (LRMs) at test time.
+          &#x1D6FC;1 first introduces <b>&#x1D6FC; moment</b>, which represents the scaled thinking phase with a universal parameter &#x1D6FC;. Within this scaled pre-&#x1D6FC; moment phase, it dynamically schedules slow thinking transitions by modeling the insertion of reasoning transition tokens as a Bernoulli stochastic process. 
+          After the &#x1D6FC; moment, &#x1D6FC;1 deterministically terminates slow thinking with the end-of-thinking token, thereby fostering fast reasoning and efficient answer generation.
+        </p>
+        <p style="text-align:justify; color:rgb(31, 30, 30);">
+          This approach unifies and generalizes existing monotonic scaling methods by enabling <b>flexible and dense slow-to-fast reasoning modulation</b>,
+          while offering critical insights into the joint optimization of reasoning capabilities and computational efficiency.
+        </p>
+      </div>
+
+      <!-- Figure 1 -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-eight-fifths">
+          <figure class="table-figure">
+            <img class="figure-image" src="website/img/framework.png" alt="Figure 1. Overview of AlphaOne." style="text-align:center; margin-bottom:1rem; margin-top:1.5rem;"/>
+            <figcaption class="figure-caption">
+              <b>Figure 1.</b> Overview of <span class="alphaone">AlphaOne</span> (&#x1D6FC;1).
+            </figcaption>
+          </figure>
+
+        </div>
+      </div>
+  </section> 
+
+
+  <!-- BibTeX Section -->
+  <section class="section" id="BibTeX" style="padding-top:1.5rem;">
+    <div class="container is-max-desktop content" style="max-width: 55%; margin: 0 auto;">
+      <h2 class="title is-3" style="text-align:center;">BibTeX</h2>
+      <pre>
+        @article{AlphaOne25,
+          title={AlphaOne: Reasoning Models Thinking Slow and Fast at Test Time},
+          author={Zhang, Junyu and Dong, Runpei and Wang, Han and Ning, Xuying and Geng, Haoran and Li, Peihao and He, Xialin and Bai, Yutong and Malik, Jitendra and Gupta, Saurabh and Zhang, Huan},
+          journal={arXiv preprint arXiv:},
+          year={2025}
+        }
+      </pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="section" id="org-banners"
+         style="max-width: 55%; margin: 0 auto -3rem auto; display: flex; justify-content: center; gap: 2rem;">
+         
+      <a href="https://illinois.edu/" target="_blank" rel="external">
+        <img class="center-block org-banner" src="website/img/uiuc.webp"
+             style="width: 350px; height: auto;">
+      </a>
+  
+      <a href="https://www.berkeley.edu/" target="_blank" class="ext-link">
+        <img class="center-block org-banner" src="website/img/berkeley_logo.svg"
+             style="width: 150px; height: auto;">
+      </a>
+  
+      <a href="https://bair.berkeley.edu/" target="_blank" class="ext-link">
+        <img class="center-block org-banner" src="website/img/BAIR_Logo_Blue_BearOnly.svg"
+             style="width: 150px; height: auto;">
+      </a>
+    </div>
+  </section>
+  
+
+  <footer class="footer">
+    <!-- <div class="content has-text-centered"> -->
+    <div class="columns is-centered">
+        <div class="column is-9">
+          <div class="content">
+          <p>
+            This website is adapted from 
+            <a href="https://nerfies.github.io/" style="text-decoration: none;">Nerfies</a>, licensed under a 
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" style="text-decoration: none;">
+              Creative Commons Attribution-ShareAlike 4.0 International License
+            </a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+</footer>
+
+
+</body>
+</html>
