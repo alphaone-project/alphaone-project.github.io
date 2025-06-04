@@ -1394,6 +1394,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     title: "Method",
                     field: "method",
+                    cssClass: "avg-column",
                     hozAlign: "center",
                     widthGrow: 1.1,
                     minWidth: 100,
@@ -1415,6 +1416,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     title: "Mathematical",
+                    cssClass: "avg-column",
                     headerHozAlign: "center",
                     columns: [
                         { 
@@ -1453,6 +1455,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     title: "Coding",
+                    cssClass: "avg-column",
                     headerHozAlign: "center",
                     columns: [
                         { 
@@ -1467,6 +1470,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     title: "Science",
+                    cssClass: "avg-column",
                     headerHozAlign: "center",
                     columns: [
                         { 
@@ -1541,6 +1545,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     title: "Mathematical",
+                    cssClass: "avg-column",
                     headerHozAlign: "center",
                     columns: [
                         { 
@@ -1579,6 +1584,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     title: "Coding",
+                    cssClass: "avg-column",
                     headerHozAlign: "center",
                     columns: [
                         { 
@@ -1593,6 +1599,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     title: "Science",
+                    cssClass: "avg-column",
                     headerHozAlign: "center",
                     columns: [
                         { 
@@ -1644,6 +1651,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     title: "Method",
                     field: "method",
+                    cssClass: "avg-column",
                     hozAlign: "center",
                     widthGrow: 1.1,
                     minWidth: 100,
@@ -1665,6 +1673,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     title: "Mathematical",
+                    cssClass: "avg-column",
                     headerHozAlign: "center",
                     columns: [
                         { 
@@ -1703,6 +1712,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     title: "Coding",
+                    cssClass: "avg-column",
                     headerHozAlign: "center",
                     columns: [
                         { 
@@ -1717,6 +1727,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     title: "Science",
+                    cssClass: "avg-column",
                     headerHozAlign: "center",
                     columns: [
                         { 
