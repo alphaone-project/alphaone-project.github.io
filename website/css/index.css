@@ -15,6 +15,9 @@ body {
     margin-bottom: 5px;
     text-decoration: none;
 }
+span {
+  font-size: 1.15em;
+}
 
 .alphaone {
   font-variant: small-caps;
@@ -80,7 +83,7 @@ body {
 
 .author-block {
   display: inline-block;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
 }
 
 .publication-banner img {
@@ -204,6 +207,15 @@ body {
 
 .tabulator-header .tabulator-col {
   text-align:center;
+}
+
+.tabulator-cell {
+  padding-left: 1px !important;
+  padding-right: 1px !important;
+}
+
+.avg-column {
+  font-size: 1.1em !important;
 }
 
 /* body {
